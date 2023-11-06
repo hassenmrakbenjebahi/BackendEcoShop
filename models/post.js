@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { commentSchema } from "./comment.js";
 //import Comment from "./comment";
 const{Schema,model}=mongoose;
 
@@ -15,7 +16,7 @@ const postSchema= new Schema({
             required:true         
           },           // L'URL de la vidéo ou de l'image
     publicationDate: { type: Date, default: Date.now }, // Date de publication
-    comments: [],// liste commentaires
+    comments: [commentSchema],// liste commentaires
     likes: [{ type: String }], // Liste des utilisateurs qui ont aimé la publication
 
 });

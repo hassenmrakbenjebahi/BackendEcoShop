@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const{Schema,model}=mongoose;
 
-const commentSchema= new Schema({
+export const commentSchema= new Schema({
     content:{type:String,
              required:true
            },

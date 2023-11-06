@@ -44,10 +44,10 @@ export function getAll(req,res){
                 author:docs[i].author,
                 content:docs[i].content,
                 publicationDate:docs[i].publicationDate,
-                comment:[],
+                comment:docs[i].comments,
                 likes:[]
             });
-        }
+        }  
         res.status(200).json(list)
     })
     .catch((err)=>{

@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import posteRoutes from './routes/post.js';
-
+import commentRoutes from './routes/comment.js';
 const app = express();
 const port = process.env.PORT || 9090;
 const databaseName = 'ecoshopdb';
@@ -22,6 +22,8 @@ mongoose
   app.use('/media', express.static('public/images')); // Servir les fichiers sous le dossier public/images  
   app.use(express.json());
   app.use('/posts',posteRoutes);
+  app.use('/comments',commentRoutes);
+
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
