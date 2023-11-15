@@ -1,16 +1,15 @@
 import express from 'express';
 import * as impact from '../controllers/impact.js';
-
 const router = express.Router();
 
-router.route("")
-    .post(impact.addImpact)
-    .get(impact.getAllImpacts)
+router.post("/addImpact", impact.addImpact);
 
-router.route("/:impactId")
-    .get(impact.getImpactById)
-    .delete(impact.deleteImpact)
-    .put(impact.updateImpact)
+router.get("/getAllImpacts", impact.getAllImpacts);
 
+router.get("/getImpactById/:impactId", impact.getImpactById);
+
+router.delete("/deleteImpact/:impactId", impact.deleteImpact);
+
+router.put("/updateImpact/:impactId", impact.updateImpact);
 
 export default router;

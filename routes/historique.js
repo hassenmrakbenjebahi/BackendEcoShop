@@ -3,12 +3,12 @@ import * as historique from '../controllers/historique.js';
 
 const router = express.Router();
 
-router.route("")
-    .post(historique.addToHistory)
-    .get(historique.getAllHistory)
+router.post("/addToHistory", historique.addToHistory)
 
-router.route("/:historyId")
-    .get(historique.getHistoryById)
-    .delete(historique.deleteHistory)
+router.get("/getAllHistory", historique.getAllHistory)
+
+router.get("/getHistoryById/:historyId", historique.getHistoryById)
+
+router.delete("/deleteHistory/:historyId", historique.deleteHistory)
 
 export default router;

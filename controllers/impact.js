@@ -15,7 +15,7 @@ export async function addImpact (req, res){
 export async function getAllImpacts (req, res) {
     try {
       const impacts = await Impact.find();
-      res.json(impacts);
+      res.json({impacts: impacts});
     } catch (error) {
       res.status(500).json({ error: 'Error retrieving impacts' });
     }
@@ -28,20 +28,20 @@ export async function getImpactById (req, res){
       if (!impact) {
         return res.status(404).json({ error: 'Impact environnemental not found' });
       }
-      res.json(impact);
+      res.json({impact: impact});
     } catch (error) {
       res.status(500).json({ error: 'Error retrieving impact' });
     }
 };
 
 // delete Impact by Id
-export async function deleteImpact (req, res){
+export function deleteImpact (req, res){
     try {
-      const deletedImpact = await Impact.findByIdAndRemove(req.params.impactId);
-      if (!deletedImpact) {
-        return res.status(404).json({ error: 'Impact not found' });
-      }
-      res.json(deletedImpact);
+     Impact.deleteOne({_id: req.params.impactId}).then((response)=>{
+        response.deletedCount ?
+        res.json({msg : "delete Impact with success"}) :
+        res.json({msg: "ERROR 404"})
+    })
     } catch (error) {
       console.log(error)
       res.status(500).json({ error: 'Error deleting Impact' });
@@ -52,7 +52,9 @@ export async function deleteImpact (req, res){
 export async function updateImpact (req, res){
     try {
       const updateImpact = await Impact.findByIdAndUpdate(
-        req.params.impactId, req.body, { new: true });
+        req.params.impactId,
+        req.body,
+        { new: true });
       if (!updateImpact) {
         return res.status(404).json({ error: 'Impact not found' });
       }

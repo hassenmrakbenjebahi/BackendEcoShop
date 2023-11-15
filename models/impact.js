@@ -1,11 +1,11 @@
 // import monggose module
 import mongoose from "mongoose";
 
-// create historiqueSchema
+// create impactSchema
 const impactSchema = new mongoose.Schema({
-    carbonFootprint: String,      // Empreinte carbone en unité de mesure (kg de CO2)
-    waterConsumption: String,    // Consommation d'eau en unité de mesure (litres)
-    recyclability: String,      // Niveau de recyclabilité en pourcentage
+    carbonFootprint: String,      // unit of measurement (kg of CO2)
+    waterConsumption: String,    // unit of measurement  (litres)
+    recyclability: String,      // unit of measurement (pourcentage)
 });
 
 // Make exportable

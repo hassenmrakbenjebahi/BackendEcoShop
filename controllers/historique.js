@@ -14,8 +14,8 @@ export async function addToHistory (req, res){
 // get all history 
 export async function getAllHistory (req, res) {
     try {
-      const histories = await Historique.find().populate("userId");
-      res.json(histories);
+      const histories = await Historique.find().populate("userId")
+      res.json({Histories: histories});
     } catch (error) {
       res.status(500).json({ error: 'Error retrieving histories' });
     }
@@ -24,7 +24,10 @@ export async function getAllHistory (req, res) {
 // get History By Id
 export async function getHistoryById (req, res){
     try {
-      const history = await Historique.findById(req.params.historyId);
+      const history = await Historique.findById(req.params.historyId)
+      .populate("userId")
+      .populate("productId")
+      .populate("impactId")
       if (!history) {
         return res.status(404).json({ error: 'History not found' });
       }
@@ -35,13 +38,13 @@ export async function getHistoryById (req, res){
 };
 
 // delete History By Id
-export async function deleteHistory (req, res) {
+export function deleteHistory (req, res) {
     try {
-      const deletedHistory = await Historique.findByIdAndRemove(req.params.historyId);
-      if (!deletedHistory) {
-        return res.status(404).json({ error: 'History not found' });
-      }
-      res.json(deletedHistory);
+      Historique.deleteOne({_id: req.params.historyId}).then((response)=>{
+        response.deletedCount ?
+        res.json({msg : "delete History with success"}) :
+        res.json({msg: "ERROR 404"})
+    })
     } catch (error) {
       res.status(500).json({ error: 'Error deleting history' });
     }
