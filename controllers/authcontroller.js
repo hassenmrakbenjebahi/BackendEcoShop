@@ -11,7 +11,27 @@ import { decode } from "punycode";
 import user from "../models/user.js";
 
 
+export async function updateUser(req,res,next){
+  const token = req.headers.authorization
+  const decoded = jwt.verify(token, 'bola-you-217');
 
+  const updateData = {
+    Username: req.body.Username,
+    email: req.body.email,
+    phone: req.body.phone,
+  };
+  const user = await User.findByIdAndUpdate(decoded._id, { $set: updateData }, { new: true, runValidators: true });
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }else{
+   
+    //await user.save({validateBeforeSave: false})
+    res.status(200).json({status: 'success',
+    message:'updated successfully',
+    });
+  }
+
+}
 
 
 export async function getUsers(req, res, next) {
@@ -25,7 +45,8 @@ export async function getUsers(req, res, next) {
     res.status(200).json({
       name: user.Username,
       email: user.email,
-      Image: user.Image
+      Image: user.Image,
+      phone: user.phone
     })
   }
 }

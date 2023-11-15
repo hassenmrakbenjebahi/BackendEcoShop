@@ -9,6 +9,8 @@ router.route("/login").post(authController.login);
 router.route("/otp").post(authController.otp);
 router.route("/profile").get(authController.getUsers)
 
+router.route("/updateuser").put(authController.updateUser);
+
 router.route("/forgetPassword").post(authController.forgetPassword);
 router.route("/resetPassword").patch(authController.resetPassword);
 
