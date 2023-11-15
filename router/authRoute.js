@@ -5,8 +5,9 @@ import multer from '../middlewares/multer-config.js'
  
 router.route("/signup").post(multer,authController.signup);
 router.route("/login").post(authController.login);
-router.route("/users").get(authController.protect ,authController.getUsers);
+//router.route("/users").get(authController.protect ,authController.getUsers);
 router.route("/otp").post(authController.otp);
+router.route("/profile").get(authController.getUsers)
 
 router.route("/forgetPassword").post(authController.forgetPassword);
 router.route("/resetPassword").patch(authController.resetPassword);

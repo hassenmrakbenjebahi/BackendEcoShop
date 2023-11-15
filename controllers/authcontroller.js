@@ -15,20 +15,21 @@ import user from "../models/user.js";
 
 
 export async function getUsers(req, res, next) {
-  try {
-    const users = await User.find();
-   
-    
+  
+  const token = req.headers.authorization
+  const decoded = jwt.verify(token, 'bola-you-217');
+  const user = await User.findById(decoded._id);
+  if (!user){
+    return next(new CustomError('User not found',404))
+  }else{
     res.status(200).json({
-      status: 'success',
-      data: {
-        users,
-      },
-    });
-  } catch (error) {
-    next(error);
+      name: user.Username,
+      email: user.email,
+      Image: user.Image
+    })
   }
 }
+
 
 
 
@@ -142,10 +143,12 @@ export async function login (req,res,next){
         const error = new CustomError('Incorrect email or password',400);
         return next(error);
     }
-    const token =signToken(user._id);
+    const tokenData = {_id: user._id, Username: user.Username};
+    const token1 = await user.generateToken(tokenData, 'bola-you-217',"20h");
     res.status(200).json({
         status:'success',
-        token,
+        message:'correct',
+        token:token1,
 
     })
 }
