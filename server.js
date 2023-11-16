@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import posteRoutes from './routes/post.js';
 import commentRoutes from './routes/comment.js';
+import usersRoutes from './routes/user.js'
 const app = express();
 const port = process.env.PORT || 9090;
 const databaseName = 'ecoshopdb';
@@ -23,6 +24,7 @@ mongoose
   app.use(express.json());
   app.use('/posts',posteRoutes);
   app.use('/comments',commentRoutes);
+  app.use("/users",usersRoutes)
 
 
   app.listen(port, () => {

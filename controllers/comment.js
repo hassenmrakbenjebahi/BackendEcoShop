@@ -1,5 +1,6 @@
 import Comment from '../models/comment.js';
-import Post from '../models/post.js'
+import Post from '../models/post.js';
+import user from '../models/user.js';
 
 
 export function addOnce(req, res) {
@@ -9,20 +10,40 @@ export function addOnce(req, res) {
             if (!post) {
                 res.status(404).json({ error: "Post non trouvé" });
             } else {
-                Comment.create(req.body)
-                    .then(newcomment => {
-                        post.comments.push(newcomment);
-                        return Promise.all([newcomment.save(), post.save()]);
-                    })
-                    .then(() => {
-                        res.status(200).json({ success: "Commentaire ajouté avec succès au post." });
-                    })
-                    .catch(err => {
-                        res.status(500).json({ error: "Erreur lors de l'enregistrement du commentaire ou du post mis à jour.", err });
-                    });
+                user.findById(req.params.idu).then((us)=>{
+                    if(!us){
+                        res.status(404).json({error:"user non trouvé"})
+                    }else{
+                        Comment.create({
+                            content:req.body.content
+                        }).then(newcomment => {
+                            newcomment.user.push(us);
+                            post.comments.push(newcomment);
+                            
+
+                            return Promise.all([newcomment.save(), post.save()]);
+
+                        }).then((newcomment) => {
+                            res.status(200).json(newcomment);
+                        })
+                        .catch(err => {
+                            res.status(500).json({ error: "Erreur lors de l'enregistrement du commentaire ou du post mis à jour.", err });
+                        });
+                         
+                        
+
+                    }
+                }
+                 
+                )
+                
             }
         })
         .catch(err => {
             res.status(500).json({ error: "Erreur lors de la recherche du post :", err });
         });
 }
+
+
+
+

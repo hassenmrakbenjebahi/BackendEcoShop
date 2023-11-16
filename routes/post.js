@@ -1,5 +1,5 @@
 import express from "express";
-import{ addOnce , deleteOne, getAll, getOnce, putOne}from '../controllers/post.js';
+import{ addOnce , deleteOne, getAll, getOnce, putOne,addPost}from '../controllers/post.js';
 import multer from '../middlewares/post-multer-config.js'; // Importer la configuration de multer
 import { body } from 'express-validator'; // Importer express-validator
 
@@ -20,6 +20,8 @@ router
 .route('/:id')
 .get(getOnce)
 .delete(deleteOne)
-.put(putOne);
+.put(putOne)
+.post(multer,
+    addPost);
 
 export default router;

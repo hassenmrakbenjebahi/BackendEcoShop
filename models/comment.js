@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { userSchema } from "./user.js";
 const{Schema,model}=mongoose;
 
 export const commentSchema= new Schema({
@@ -7,9 +8,9 @@ export const commentSchema= new Schema({
            },
     author: {
               type:String,
-              required:true
             },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    user:[userSchema]
 
 });
 export default model('Comment',commentSchema);

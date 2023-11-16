@@ -1,4 +1,5 @@
 import Post from '../models/post.js';
+import user from '../models/user.js';
 import { validationResult } from 'express-validator'; // Importer express-validator
 
 
@@ -45,7 +46,8 @@ export function getAll(req,res){
                 content:docs[i].content,
                 publicationDate:docs[i].publicationDate,
                 comment:docs[i].comments,
-                likes:[]
+                likes:[],
+                user:docs[i].user
             });
         }  
         res.status(200).json(list)
@@ -93,4 +95,34 @@ export function deleteOne(req,res){
   });
    
 
+}
+
+
+
+
+
+
+
+
+
+export function addPost(req, res) {
+  // Recherchez le post par son ID
+  user.findById(req.params.id)
+      .then(doc => {
+          if (!doc) {
+              res.status(404).json({ error: "user non trouvé" });
+          } else {
+              Post.create(req.body)
+                  .then(newpost => {
+                    newpost.user.push(doc);
+                    newpost.save()
+                    res.status(200).json(newpost);
+
+                  })
+                  
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ error: "Erreur lors de la recherche du user :", err });
+      });
 }
