@@ -14,7 +14,7 @@ export default multer({
   storage: diskStorage({
      destination: (req, file, callback) => {
       const __dirname = dirname(fileURLToPath(import.meta.url)); // Récupérer le chemain du dossier courant
-      callback(null, join(__dirname, "../public/images")); // Indiquer l'emplacement de stockage
+      callback(null, join(__dirname, '../public/images')); // Indiquer l'emplacement de stockage
     },
      filename: (req, file, callback) => {
        const name = file.originalname.split(" ").join("_");

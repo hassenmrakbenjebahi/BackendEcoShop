@@ -4,6 +4,7 @@ import {CustomError} from "../middlewares/CustomError.js";
 import asyncErrorHandler from "../middlewares/asyncErrorHandler.js";
 import util from 'util';
 import sendEmail from "../utils/email.js";
+import bcrypt from 'bcryptjs';
 import crypto from "crypto"
 import { error } from "console";
 import { sendSMS } from "../utils/phone.js";
@@ -24,13 +25,48 @@ export async function updateUser(req,res,next){
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }else{
-   
-    //await user.save({validateBeforeSave: false})
     res.status(200).json({status: 'success',
     message:'updated successfully',
     });
   }
 
+}
+export async function deleteUser(req,res,next){
+  const token = req.headers.authorization
+  const decoded = jwt.verify(token, 'bola-you-217');
+  const userId = decoded._id;
+  const result = await User.findByIdAndDelete(userId);
+
+    if (result) {
+      res.status(200).json({ message: 'User deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+}
+
+export async function updatePasswored(req,res,next){
+  const token = req.headers.authorization
+  const decoded = jwt.verify(token, 'bola-you-217');
+  const user = await User.findById(decoded._id).select('+password');;
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    console.log('Old Password from request:', req.body.Oldpassword);
+    console.log('Hashed Password from database:', user.password);
+
+    const isMatch = await bcrypt.compare(req.body.Oldpassword, user.password);
+    if (isMatch) {
+      
+     
+      user.password = req.body.password;
+      user.confirmPassword = req.body.confirmPassword;
+     await user.save();
+     res.status(200).json({status: 'success',message:'Password updated successfully'});
+    }else {
+      
+      return res.status(400).json({status: 'Failed', message: 'Current password is incorrect' });
+    }
 }
 
 
