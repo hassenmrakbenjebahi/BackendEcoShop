@@ -27,7 +27,6 @@ export async function getHistoryById (req, res){
       const history = await Historique.findById(req.params.historyId)
       .populate("userId")
       .populate("productId")
-      .populate("impactId")
       if (!history) {
         return res.status(404).json({ error: 'History not found' });
       }

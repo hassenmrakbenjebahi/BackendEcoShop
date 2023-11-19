@@ -12,7 +12,12 @@ const app = express();
 // app configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-
+// Gestion des erreurs
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+// Port
 const port = process.env.PORT || 9090;
 // DataBase
 const databaseName = 'ecoshopdb';
