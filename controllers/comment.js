@@ -14,16 +14,13 @@ export function addOnce(req, res) {
                     if(!us){
                         res.status(404).json({error:"user non trouvé"})
                     }else{
-                        Comment.create({
-                            content:req.body.content
-                        }).then(newcomment => {
-                            newcomment.user.push(us);
-                            post.comments.push(newcomment);
-                            
-
-                            return Promise.all([newcomment.save(), post.save()]);
-
-                        }).then((newcomment) => {
+                        const newComment={
+                            content:req.body.content,
+                            iduser:req.params.idu,
+                            idpost:req.params.id
+                           }
+                        Comment.create(newComment)
+                        .then((newcomment) => {
                             res.status(200).json(newcomment);
                         })
                         .catch(err => {
@@ -47,3 +44,10 @@ export function addOnce(req, res) {
 
 
 
+export function getAllCommentPost(req,res){
+ Comment.find({ idpost: req.params.id }).then(doc =>{
+    res.status(201).json(doc)
+ }) .catch((err)=>{
+    res.status(500).json({error:err});
+});   
+}

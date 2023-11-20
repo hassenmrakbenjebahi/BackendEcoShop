@@ -30,4 +30,4 @@ export default multer({
   }),
   // Taille max des images 10Mo
   limits: 10 * 1024 * 1024,
-}).single("media"); // Le fichier est envoyé dans le body avec nom/clé 'image'
+}).single("media"); // Le fichier est envoyé dans le body avec nom/clé 'media'

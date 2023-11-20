@@ -9,12 +9,9 @@ export function addOnce(req,res){
     res.status(400).json({ errors: validationResult(req).array() });
 }else{
     Post.create({
-         author:req.body.author,
          content:req.body.content,
          // Récupérer l'URL de le media pour l'insérer dans la BD
          media: `${req.protocol}://${req.get('host')}/media/${req.file.filename}`,
-         comment:req.body.comment,
-         likes:req.body.likes
 
 
          
@@ -23,11 +20,9 @@ export function addOnce(req,res){
     res.status(200).json(
         {
             id:newpost._id,
-            author:newpost.author,
             content:newpost.content,
             media:newpost.media,
             publicationDate:newpost.publicationDate,
-            comment:[],
             likes:[]
         });
      }).catch((err)=>{
@@ -42,12 +37,11 @@ export function getAll(req,res){
         for(let i=0;i<docs.length;i++){
             list.push({
                 id:docs[i]._id,
-                author:docs[i].author,
                 content:docs[i].content,
                 publicationDate:docs[i].publicationDate,
-                comment:docs[i].comments,
                 likes:[],
-                user:docs[i].user
+                iduser:docs[i].iduser,
+                media:docs[i].media
             });
         }  
         res.status(200).json(list)
@@ -112,13 +106,21 @@ export function addPost(req, res) {
           if (!doc) {
               res.status(404).json({ error: "user non trouvé" });
           } else {
-              Post.create(req.body)
+             // Créez le post en utilisant les données de la requête
+             const newPost = {
+              content: req.body.content,
+              media: `${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
+              iduser: req.params.id // Ajoutez l'id du user à iduser du post
+          };
+              Post.create(newPost)
                   .then(newpost => {
-                    newpost.user.push(doc);
-                    newpost.save()
+                   
                     res.status(200).json(newpost);
 
                   })
+                  .catch(err => {
+                    res.status(500).json({ error: "Erreur lors de la création du post :", err });
+                });
                   
           }
       })
