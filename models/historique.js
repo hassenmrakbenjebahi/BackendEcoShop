@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 const historiqueSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-    // impactId: { type: mongoose.Schema.Types.ObjectId, ref: 'Impact' },
 });
 
 // Make exportable

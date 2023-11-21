@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/addToHistory", historique.addToHistory)
 
-router.get("/getAllHistory", historique.getAllHistory)
+router.get("/getAllHistory/:historyByUserId", historique.getAllHistory)
 
 router.get("/getHistoryById/:historyId", historique.getHistoryById)
 

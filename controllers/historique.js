@@ -11,28 +11,15 @@ export async function addToHistory (req, res){
     }
 };
 
-// get all history 
+// get all history By UserId
 export async function getAllHistory (req, res) {
     try {
-      const histories = await Historique.find().populate("userId")
+      const histories = await Historique.find({userId : req.params.historyByUserId})
+      .populate("userId")
+      .populate("productId")
       res.json({Histories: histories});
     } catch (error) {
       res.status(500).json({ error: 'Error retrieving histories' });
-    }
-};
-
-// get History By Id
-export async function getHistoryById (req, res){
-    try {
-      const history = await Historique.findById(req.params.historyId)
-      .populate("userId")
-      .populate("productId")
-      if (!history) {
-        return res.status(404).json({ error: 'History not found' });
-      }
-      res.json(history);
-    } catch (error) {
-      res.status(500).json({ error: 'Error retrieving history' });
     }
 };
 
@@ -47,5 +34,21 @@ export function deleteHistory (req, res) {
     } catch (error) {
       res.status(500).json({ error: 'Error deleting history' });
     }
+};
+
+//**************************************************************************
+// get History By Id
+export async function getHistoryById (req, res){
+  try {
+    const history = await Historique.findById(req.params.historyId)
+    .populate("userId")
+    .populate("productId")
+    if (!history) {
+      return res.status(404).json({ error: 'History not found' });
+    }
+    res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: 'Error retrieving history' });
+  }
 };
 
