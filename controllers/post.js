@@ -39,7 +39,7 @@ export function getAll(req,res){
                 id:docs[i]._id,
                 content:docs[i].content,
                 publicationDate:docs[i].publicationDate,
-                likes:[],
+                likes:docs[i].likes,
                 iduser:docs[i].iduser,
                 media:docs[i].media
             });
@@ -109,7 +109,7 @@ export function addPost(req, res) {
              // Créez le post en utilisant les données de la requête
              const newPost = {
               content: req.body.content,
-              media: `${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
+              //media: `${req.protocol}://${req.get('host')}/public/images/${req.file.filename}`,
               iduser: req.params.id // Ajoutez l'id du user à iduser du post
           };
               Post.create(newPost)
@@ -127,4 +127,83 @@ export function addPost(req, res) {
       .catch(err => {
           res.status(500).json({ error: "Erreur lors de la recherche du user :", err });
       });
+}
+
+
+export function addlike(req, res) {
+  // Recherchez le post par son ID
+  Post.findById(req.params.id)
+      .then(post => {
+          if (!post) {
+              res.status(404).json({ error: "Post non trouvé" });
+          } else {
+              user.findById(req.params.idu).then((us)=>{
+                  if(!us){
+                      res.status(404).json({error:"user non trouvé"})
+                  }else{
+                    let indexAEnlever = post.likes.indexOf(req.params.idu);
+                       if(indexAEnlever== -1){
+                      post.likes.push(req.params.idu)
+                       }
+                       post.save()
+
+                      .then((p) => {
+                          res.status(200).json(p);
+                      })
+                      .catch(err => {
+                          res.status(500).json({ error: "Erreur lors de l'enregistrement du user ou du like post mis à jour.", err });
+                      });
+                       
+                      
+
+                  }
+              }
+               
+              )
+              
+          }
+      })
+      .catch(err => {
+          res.status(500).json({ error: "Erreur lors de la recherche du post :", err });
+      });
+}
+
+
+export function retireLike(req,res){
+ 
+ // Recherchez le post par son ID
+ Post.findById(req.params.id)
+ .then(post => {
+     if (!post) {
+         res.status(404).json({ error: "Post non trouvé" });
+     } else {
+         user.findById(req.params.idu).then((us)=>{
+             if(!us){
+                 res.status(404).json({error:"user non trouvé"})
+             }else{
+              let indexAEnlever = post.likes.indexOf(req.params.idu);
+              if(indexAEnlever !== -1){
+
+                 post.likes.splice(indexAEnlever,1)
+                 }
+                 post.save()
+                 .then((p) => {
+                     res.status(200).json(p);
+                 })
+                 .catch(err => {
+                     res.status(500).json({ error: "Erreur lors de l'enregistrement du user ou du like post mis à jour.", err });
+                 });
+                  
+                 
+
+             }
+         }
+          
+         )
+         
+     }
+ })
+ .catch(err => {
+     res.status(500).json({ error: "Erreur lors de la recherche du post :", err });
+ });
 }

@@ -19,8 +19,8 @@ mongoose
   .catch(err => {
     console.log(err);
   });
-  app.use(express.urlencoded({ extended: true })); // Pour analyser application/x-www-form-urlencoded
-  app.use('/img', express.static('public/images')); // Servir les fichiers sous le dossier public/images  
+ // app.use(express.urlencoded({ extended: true })); // Pour analyser application/x-www-form-urlencoded
+ // app.use('/img', express.static('public/images')); // Servir les fichiers sous le dossier public/images  
   app.use(express.json());
   app.use('/posts',posteRoutes);
   app.use('/comments',commentRoutes);
