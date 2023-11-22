@@ -8,24 +8,24 @@ const userSchema = new mongoose.Schema({
     Username: {
         type: String,
         
-        required: true
+        required: function() { return !this.googleId; }
       },
       email:{
         type: String,
       required: true,
-      unique: true,
+      unique: function() { return !this.googleId; },
       lowercase: true,
       validate:validator.isEmail
       },
       password:{
         type: String,
-        required: true,
+        required: function() { return !this.googleId; },
         "minLength": 8 , 
         select: false
       },
       confirmPassword:{
         type:String,
-        required : true,
+        required : function() { return !this.googleId; },
         validate:{validator: function(val){
             return val ==this.password
         },
@@ -35,13 +35,18 @@ const userSchema = new mongoose.Schema({
       phone:{ 
         type:String,
         unique: true,
-        required : true
+        required : function() { return !this.googleId; }
     
     },
     Image:{
       type: String
     },
     code : String,
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true, // Cela permet d'avoir des entrées sans googleId
+    },
     //profileImg: String,
     passwordResetToken: String,
     passwordResetTokenExpires:Date
