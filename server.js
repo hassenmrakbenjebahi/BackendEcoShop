@@ -1,30 +1,58 @@
 import express from 'express';
+
+import { notFoundError } from './middlewares/error.js';
+import posteRoutes from './routes/post.js';
+import commentRoutes from './routes/comment.js';
+import usersRoutes from './routes/user.js'
 import mongoose from 'mongoose';
-import productRoutes from './routes/product.js';
 
-const app = express();
-const port = process.env.PORT || 9090;
-const databaseName = 'ecoshopdb';
-const db_url = process.env.DB_URL || 'mongodb://127.0.0.1:27017';
+import morgan from 'morgan';
 
-mongoose.set('debug', true);
+import authRouter from './router/authRoute.js'
+import routeproduct from './routes/product.js'
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const app = express()
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+
+app.use('/images', express.static(path.join(__dirname, 'public')));
+
+const hostanme = "127.0.0.1"
+const port = 3000
+
+// app.use(cors())
+app.use(express.json())
+app.use(morgan('dev'))
+
+app.use(express.urlencoded({ extended: true }))
+//DB
+mongoose.set('debug', true)
 mongoose.Promise = global.Promise;
-
 mongoose
-  .connect(`${db_url}/${databaseName}`)
-  .then(() => {
-    console.log(`Connected to ${databaseName}`);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+    .connect('mongodb://127.0.0.1:27017/User')
+    .then(() => console.log("Connected to MongoDB"))
+    .catch(err => {
+        console.log(err);
+    })
 
-  app.use(express.urlencoded({ extended: true })); // Pour analyser application/x-www-form-urlencoded
-  app.use('/image', express.static('public/images')); // Servir les fichiers sous le dossier public/images  
-  app.use(express.json());
-  app.use("/product",productRoutes)
+app.use('/user',authRouter)
+app.use('/product',routeproduct)
+app.use(express.urlencoded({ extended: true }));
+app.use('/posts',posteRoutes);
+  app.use('/comments',commentRoutes);
+  app.use("/users",usersRoutes)
 
-  app.listen(port, () => {
+app.use(notFoundError)
+
+
+
+
+
+
+app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);
-  });
-  
+});
+

@@ -9,18 +9,22 @@ router
   .route('/')
   .get(getAll)
   .post(
-    multer, // Updated file field name for multer
-    body('name').isLength({ min: 5 }), // Adjusted validation rules
-    body('description').isLength({ min: 5 }), // Adjusted validation rules
+     // Updated file field name for multer
+    body('name'), // Adjusted validation rules
+    body('description'), // Adjusted validation rules
     body('code'), // Adjusted validation rules
-    body('isDanger').isBoolean(), // Adjusted validation rules
+    
     addOnce
-  );
 
+  )
+  ;
+
+  
 router
   .route('/:id')
-  .get(getOnce)
+  
   .delete(deleteOne)
   .put(putOne);
+  router.route("/getone").get(getOnce)
 
 export default router;

@@ -7,7 +7,9 @@ const productSchema=new Schema({
     description : String,
     image : String,
     code : String,
-    isDanger : Boolean
+    carbonFootPrint: String,
+    waterConsumption: String,
+    recyclability: String,
 })
 
 

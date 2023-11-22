@@ -2,14 +2,12 @@ import Product from '../models/product.js';
 
 export function addOnce(req, res) {
   const { name, description, code, isDanger } = req.body;
-  const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
+  //const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
 
   const newProduct = new Product({
     name,
     description,
-    image,
     code,
-    isDanger,
   });
 
   newProduct
@@ -19,8 +17,7 @@ export function addOnce(req, res) {
         id: newProduct._id,
         name: newProduct.name,
         code: newProduct.code,
-        image: newProduct.image,
-        isDanger: newProduct.isDanger,
+      
       });
     })
     .catch((err) => {
@@ -38,18 +35,17 @@ export function getAll(req, res) {
     });
 }
 
-export function getOnce(req, res) {
-  Product.findById(req.params.id)
-    .then((doc) => {
-      if (!doc) {
-        res.status(404).json({ error: 'Product not found' });
-      } else {
-        res.status(200).json(doc);
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
+export async function getOnce(req, res) {
+ const prod = await Product.findOne({code: req.body.code})
+
+ if(!prod){
+  return res.status(404).json({ status: 'error', message: 'Product not found' });
+ }else{
+  res.status(200).json({ 
+    name : prod.name,
+    description : prod.description
+  });
+ }
 }
 
 export function putOne(req, res) {
