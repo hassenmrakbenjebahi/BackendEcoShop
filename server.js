@@ -1,14 +1,13 @@
 import express from 'express';
-
 import { notFoundError } from './middlewares/error.js';
 import mongoose from 'mongoose';
-
 import morgan from 'morgan';
-
 import authRouter from './router/authRoute.js'
-
+import passport from 'passport';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import session from 'express-session';
+import './utils/google.js'
 
 const app = express()
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -33,42 +32,49 @@ mongoose
     .catch(err => {
         console.log(err);
     })
+    app.use(session({
+        secret: 'bola-you-217', 
+        resave: false,
+        saveUninitialized: true,
+      }));
 
-app.use('/user',authRouter)
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+/*
+app.get('/google',
+passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+
+app.get('/callback', 
+  passport.authenticate('google', { 
+    successRedirect: '/success', 
+    failureRedirect: '/failed' 
+  })
+);
+
+app.get('/success', (req, res) => {
+    res.status(200).json({
+      status: 'success',
+      message: 'Authentification réussie',
+      user: req.user 
+    });
+  });
+  app.get('/failed', (req, res) => {
+    res.status(401).json({
+      status: 'failure',
+      message: 'Échec de authentification'
+    });
+  });
+*/
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use('/user',authRouter)
+ 
+
 
 app.use(notFoundError)
-
-
-/*app.get('/images/:imageName', (req, res, next) => {
-    const imagePath = path.join(__dirname, 'public', 'images', req.params.imageName);
-    console.log('Requested Image Path:', imagePath);
-
-    res.sendFile(imagePath, (err) => {
-        if (err) {
-            console.log('Error sending file:', err);
-
-            if (err.code === 'ENOENT') {
-                next(); 
-            } else {
-                next(err); // Pass the error to the error handling middleware
-            }
-        }
-    });
-});*/
-
-/*app.use((err, req, res, next) => {
-    console.error('Unexpected error:', err);
-    if (!res.headersSent) {
-        res.status(500).send('Internal Server Error');
-    }
-});
-
-app.use((req, res) => {
-    if (!res.headersSent) {
-        res.status(404).send('Image not found');
-    }
-});*/
 
 
 

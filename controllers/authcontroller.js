@@ -10,6 +10,62 @@ import { error } from "console";
 import { sendSMS } from "../utils/phone.js";
 import { decode } from "punycode";
 import user from "../models/user.js";
+import { OAuth2Client } from 'google-auth-library';
+import dotenv from 'dotenv';
+dotenv.config();
+
+
+
+export async function registerOrUpdateUser(req, res) {
+  try {
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    const  token  = req.body.token;
+     
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      const payload = ticket.getPayload();
+
+    
+    let user = await User.findOne({ googleId: payload['sub'] });
+
+      if (!user) {
+        user = new User({
+          Username: payload['name'], 
+          email: payload['email'],
+          image: payload['picture'],
+          googleId: payload['sub']
+        });
+
+          await user.save();
+          const tokenData = {_id: user._id};
+          const token1 = await user.generateToken(tokenData, 'bola-you-217',"20h");
+          res.status(200).json({ status: 'success', message: 'Utilisateur créé', token: token1  });
+      } else {
+          res.status(201).json({ status: 'success', message: 'Utilisateur existant', user: user });
+      }
+  } catch (err) {
+      res.status(500).json({ status: 'error', message: err.message });
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 export async function updateUser(req,res,next){
@@ -183,6 +239,10 @@ export async function signup(req ,res,next) {
       console.log(error);
       res.status(400).send("Bad request so Admin not created")
 }}
+
+export async function logingoogle(req,res,next){
+
+}
 
 export async function login (req,res,next){
     const email =req.body.email;
