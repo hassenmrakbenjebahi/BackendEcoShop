@@ -10,7 +10,7 @@ import { error } from "console";
 import { sendSMS } from "../utils/phone.js";
 import { OAuth2Client } from 'google-auth-library';
 import { decode } from "punycode";
-import user from "../models/user.js";
+
 import dotenv from 'dotenv';
 dotenv.config();
 
