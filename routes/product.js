@@ -13,11 +13,10 @@ router
     body('name'), // Adjusted validation rules
     body('description'), // Adjusted validation rules
     body('code'), // Adjusted validation rules
-    
-    addOnce
-
-  )
-  ;
+    body('carbonFootPrint'),
+    body('waterConsumption'),
+    body('recyclability'),
+    addOnce);
 
   
 router

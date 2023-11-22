@@ -1,23 +1,28 @@
 import Product from '../models/product.js';
 
 export function addOnce(req, res) {
-  const { name, description, code, isDanger } = req.body;
+  const { name, description, code,carbonFootPrint,waterConsumption,recyclability } = req.body;
   //const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
 
   const newProduct = new Product({
     name,
     description,
     code,
+    carbonFootPrint,
+    waterConsumption,
+    recyclability
   });
 
   newProduct
     .save()
     .then((newProduct) => {
       res.status(200).json({
-        id: newProduct._id,
         name: newProduct.name,
+        description: newProduct.description,
         code: newProduct.code,
-      
+        carbonFootPrint: newProduct.carbonFootPrint,
+        waterConsumption: newProduct.waterConsumption,
+        recyclability: newProduct.recyclability
       });
     })
     .catch((err) => {

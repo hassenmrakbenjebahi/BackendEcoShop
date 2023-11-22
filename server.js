@@ -10,6 +10,7 @@ import morgan from 'morgan';
 
 import authRouter from './router/authRoute.js'
 import routeproduct from './routes/product.js'
+import historiqueRouter from './routes/historique.js'
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -40,6 +41,7 @@ mongoose
 
 app.use('/user',authRouter)
 app.use('/product',routeproduct)
+app.use('/historique',historiqueRouter)
 app.use(express.urlencoded({ extended: true }));
 app.use('/posts',posteRoutes);
   app.use('/comments',commentRoutes);

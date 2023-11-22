@@ -16,6 +16,8 @@ router.route("/resetPassword").patch(authController.resetPassword);
 
 router.route("/updatePassword").patch(authController.updatePasswored);
 
+router.route("/registerUser").post(authController.registerOrUpdateUser)
+
 
 
 export default router;  

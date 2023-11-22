@@ -5,7 +5,7 @@ export async function addToHistory (req, res){
     try {
       const historique = new Historique(req.body)
       const savedHistorique = await historique.save()
-      res.status(201).json(savedHistorique);
+      res.status(200).json(savedHistorique);
     } catch (error) {
       res.status(400).json({ error: 'Error creating history' })
     }
@@ -14,10 +14,10 @@ export async function addToHistory (req, res){
 // get all history By UserId
 export async function getAllHistory (req, res) {
     try {
-      const histories = await Historique.find({userId : req.params.historyByUserId})
+      const histories = await Historique.findById( req.params.id)
       .populate("userId")
       .populate("productId")
-      res.json({Histories: histories});
+      res.status(200).json({Histories: histories});
     } catch (error) {
       res.status(500).json({ error: 'Error retrieving histories' });
     }
