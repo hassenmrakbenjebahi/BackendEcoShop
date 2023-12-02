@@ -2,11 +2,12 @@ import Product from '../models/product.js';
 
 export function addOnce(req, res) {
   const { name, description, code,carbonFootPrint,waterConsumption,recyclability } = req.body;
-  //const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
 
   const newProduct = new Product({
     name,
     description,
+    //const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
+    image: `${req.protocol}://${req.get("host")}${process.env.IMGURL}/${req.file.filename}`,
     code,
     carbonFootPrint,
     waterConsumption,

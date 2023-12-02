@@ -3,22 +3,22 @@ import { addOnce, deleteOne, getAll, getOnce, putOne } from '../controllers/prod
 import multer from '../middlewares/product-multer-config.js'; // Updated multer import
 import { body } from 'express-validator'; // Import express-validator
 
+import { singleImage } from "../middlewares/multer-config.js";
+
 const router = express.Router();
 
 router
   .route('/')
   .get(getAll)
-  .post(
-     // Updated file field name for multer
-    body('name'), // Adjusted validation rules
-    body('description'), // Adjusted validation rules
-    body('code'), // Adjusted validation rules
-    body('carbonFootPrint'),
-    body('waterConsumption'),
-    body('recyclability'),
-    addOnce);
+  .post(singleImage, addOnce);
 
-  
+    // body('name'), 
+    // body('description'), 
+    // body('code'), 
+    // body('carbonFootPrint'),
+    // body('waterConsumption'),
+    // body('recyclability'),
+
 router
   .route('/:id')
   

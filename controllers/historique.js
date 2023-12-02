@@ -1,39 +1,39 @@
 import Historique from "../models/historique.js";
 
-// add To History
+// add Product To History
 export async function addToHistory (req, res){
-    try {
-      const historique = new Historique(req.body)
-      const savedHistorique = await historique.save()
-      res.status(200).json(savedHistorique);
-    } catch (error) {
-      res.status(400).json({ error: 'Error creating history' })
-    }
+  try {
+    const historique = new Historique(req.body)
+    const savedHistorique = await historique.save()
+    res.status(200).json({Added : savedHistorique});
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' })
+  }
 };
 
 // get all history By UserId
 export async function getAllHistory (req, res) {
-    try {
-      const histories = await Historique.findById( req.params.id)
-      .populate("userId")
-      .populate("productId")
-      res.status(200).json({Histories: histories});
-    } catch (error) {
-      res.status(500).json({ error: 'Error retrieving histories' });
-    }
+  try {
+    const histories = await Historique.find({userId : req.params.historyByUserId})
+    //.populate("userId")
+    .populate("productId")
+    res.status(200).json({Histories: histories});
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 // delete History By Id
 export function deleteHistory (req, res) {
-    try {
-      Historique.deleteOne({_id: req.params.historyId}).then((response)=>{
-        response.deletedCount ?
-        res.json({msg : "delete History with success"}) :
-        res.json({msg: "ERROR 404"})
-    })
-    } catch (error) {
-      res.status(500).json({ error: 'Error deleting history' });
-    }
+  try {
+    Historique.deleteOne({_id: req.params.historyId}).then((response)=>{
+      response.deletedCount ?
+      res.status(200).json({msg : "delete History with success"}) :
+      res.status(404).json({msg: "Error deleting history"})
+  })
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 //**************************************************************************
@@ -49,6 +49,19 @@ export async function getHistoryById (req, res){
     res.json(history);
   } catch (error) {
     res.status(500).json({ error: 'Error retrieving history' });
+  }
+};
+
+
+// get all history
+export async function getAllHistory2 (req, res) {
+  try {
+    const histories = await Historique.find()
+    .populate("userId")
+    .populate("productId")
+    res.json({Histories: histories});
+  } catch (error) {
+    res.status(500).json({ error: 'Error retrieving histories' });
   }
 };
 
