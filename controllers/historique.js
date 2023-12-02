@@ -5,7 +5,7 @@ export async function addToHistory (req, res){
     try {
       const historique = new Historique(req.body)
       const savedHistorique = await historique.save()
-      res.status(201).json(savedHistorique);
+      res.status(200).json(savedHistorique);
     } catch (error) {
       res.status(400).json({ error: 'Error creating history' })
     }
@@ -15,12 +15,23 @@ export async function addToHistory (req, res){
 export async function getAllHistory (req, res) {
     try {
       const histories = await Historique.find({userId : req.params.historyByUserId})
-      .populate("userId")
+      // .populate("userId")
       .populate("productId")
       res.json({Histories: histories});
     } catch (error) {
       res.status(500).json({ error: 'Error retrieving histories' });
     }
+};
+
+// get all history
+export async function getAllHistory2 (req, res) {
+  try {
+    const histories = await Historique.find()
+    .populate("productId")
+    res.json({Histories: histories});
+  } catch (error) {
+    res.status(500).json({ error: 'Error retrieving histories' });
+  }
 };
 
 // delete History By Id
