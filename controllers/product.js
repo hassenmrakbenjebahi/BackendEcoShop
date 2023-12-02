@@ -2,12 +2,12 @@ import Product from '../models/product.js';
 
 export function addOnce(req, res) {
   const { name, description, code,carbonFootPrint,waterConsumption,recyclability } = req.body;
+  //const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
 
   const newProduct = new Product({
     name,
     description,
-    //const image = `${req.protocol}://${req.get('host')}/img/${req.file.filename}`;
-    image: `${req.protocol}://${req.get("host")}${process.env.IMGURL}/${req.file.filename}`,
+    image: `${req.protocol}://${req.get('host')}/public/images/${req.file.filename}`,
     code,
     carbonFootPrint,
     waterConsumption,
@@ -20,6 +20,7 @@ export function addOnce(req, res) {
       res.status(200).json({
         name: newProduct.name,
         description: newProduct.description,
+        image: newProduct.image,
         code: newProduct.code,
         carbonFootPrint: newProduct.carbonFootPrint,
         waterConsumption: newProduct.waterConsumption,
