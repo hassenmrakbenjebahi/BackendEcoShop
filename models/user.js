@@ -4,7 +4,8 @@ import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
     name: String,
     email: String,
-    pwd: String,
+    //pwd: String,
+    phone: String,
 })
 
 const user = mongoose.model("User", userSchema);
