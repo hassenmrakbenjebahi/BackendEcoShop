@@ -5,9 +5,14 @@ export async function addToHistory (req, res){
     try {
       const historique = new Historique(req.body)
       const savedHistorique = await historique.save()
-      res.status(200).json({Added : savedHistorique});
+      return res.status(200).json({
+        statusCode: 200,
+        Added : savedHistorique});
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' })
+      console.error(error);
+      return res.status(500).json({ 
+        statusCode: 500,
+        msg: 'Internal server error' })
     }
 };
 
@@ -17,9 +22,14 @@ export async function getAllHistory (req, res) {
       const histories = await Historique.find({userId : req.params.historyByUserId})
       //.populate("userId")
       .populate("productId")
-      res.status(200).json({Histories: histories});
+      return res.status(200).json({
+        statusCode: 200,
+        Histories: histories});
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+      console.error(error)
+      return res.status(500).json({
+        statusCode: 500,
+        msg: 'Internal server error' });
     }
 };
 
@@ -28,11 +38,18 @@ export function deleteHistory (req, res) {
     try {
       Historique.deleteOne({_id: req.params.historyId}).then((response)=>{
         response.deletedCount ?
-        res.status(200).json({msg : "delete History with success"}) :
-        res.status(404).json({msg: "Error deleting history"})
+        res.status(200).json({
+          statusCode: 200,
+          msg : "delete History with success"}) :
+        res.status(404).json({
+          statusCode: 400,
+          msg: "Error deleting history"})
     })
     } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+      console.error(error);
+      res.status(500).json({ 
+      statusCode: 500,
+      msg: 'Internal server error' });
     }
 };
 
@@ -44,9 +61,14 @@ export async function getAllHistory2 (req, res) {
     const histories = await Historique.find()
     .populate("userId")
     .populate("productId")
-    res.json({Histories: histories});
+    res.json({
+      statusCode: 200,
+      Histories: histories});
   } catch (error) {
-    res.status(500).json({ error: 'Error retrieving histories' });
+    console.error(error);
+    res.status(500).json({
+      statusCode: 500,
+      msg: 'Error retrieving histories' });
   }
 };
 
