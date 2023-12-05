@@ -61,12 +61,12 @@ export async function getAllHistory2 (req, res) {
     const histories = await Historique.find()
     .populate("userId")
     .populate("productId")
-    res.json({
+    return res.json({
       statusCode: 200,
       Histories: histories});
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       statusCode: 500,
       msg: 'Error retrieving histories' });
   }

@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const productSchema = new mongoose.Schema({
     name : String,
     description : String,
-    image : String,
+   // image : String,
     code : String,
     carbonFootPrint: String,      // unit of measurement (kg of CO2)
     waterConsumption: String,    // unit of measurement  (litres)

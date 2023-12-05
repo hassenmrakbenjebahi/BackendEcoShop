@@ -4,6 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 // import "mongoose" module
 import mongoose from 'mongoose';
+import cors from 'cors';
 // import "routes"
 import historiqueRouter from './routes/historique.js';
 import impactRouter from './routes/impact.js';
@@ -12,6 +13,7 @@ import routeproduct from './routes/product.js'
 // creates express application (app)
 const app = express();
 // app configuration
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 // Gestion des erreurs

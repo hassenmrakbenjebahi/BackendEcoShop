@@ -30,15 +30,30 @@ export function addOnce(req, res) {
     });
 }
 
-export function getAll(req, res) {
-  Product.find({})
-    .then((docs) => {
-      res.status(200).json(docs);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
+export async function getAll(req, res) {
+  try {
+    const docs = await Product.find()
+    return res.json({
+      statusCode: 200,
+      Products: docs
     });
-}
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      statusCode: 500,
+      msg: 'Error retrieving histories' });
+  }
+};
+
+// export function getAll(req, res) {
+//   Product.find()
+//     .then((docs) => {
+//       res.status(200).json({products :docs});
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ error: err.message });
+//     });
+// }
 
 export async function getOnce(req, res) {
  const prod = await Product.findOne({code: req.body.code})
