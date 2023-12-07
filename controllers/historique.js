@@ -24,7 +24,7 @@ export async function getAllHistory (req, res) {
       .populate("productId")
       return res.status(200).json({
         statusCode: 200,
-        Histories: histories});
+        histories: histories});
     } catch (error) {
       console.error(error)
       return res.status(500).json({

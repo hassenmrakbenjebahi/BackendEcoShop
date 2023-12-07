@@ -1,5 +1,5 @@
 import express from 'express';
-import { addOnce, deleteOne, getAll, getOnce, putOne } from '../controllers/product.js';
+import { addOnce, deleteOne, getAll, getOnce, putOne, getProductById } from '../controllers/product.js';
 import { body } from 'express-validator';
 
 const router = express.Router();
@@ -24,5 +24,7 @@ router
   .delete(deleteOne)
   .put(putOne);
   router.route("/getone").get(getOnce)
+
+  router.route("/getProductById/:productId").get(getProductById)
 
 export default router;
