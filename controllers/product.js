@@ -57,6 +57,21 @@ export async function getAll(req, res) {
 //     });
 // }
 
+// get Product By Id
+export async function getProductById (req, res){
+  try {
+    const prod = await Product.findById(req.params.productId)
+    if (!prod) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+    res.json({
+      statusCode: 200,
+      product: prod});
+  } catch (error) {
+    res.status(500).json({ error: 'Error Server' });
+  }
+};
+
 export async function getOnce(req, res) {
  const prod = await Product.findOne({code: req.body.code})
 

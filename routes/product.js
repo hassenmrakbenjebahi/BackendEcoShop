@@ -1,5 +1,5 @@
 import express from 'express';
-import { addOnce, deleteOne, getAll, getOnce, putOne } from '../controllers/product.js'; // Updated controller import
+import { addOnce, deleteOne, getAll, getOnce, putOne, getProductById } from '../controllers/product.js'; // Updated controller import
 import multer from '../middlewares/product-multer-config.js'; // Updated multer import
 import { body } from 'express-validator'; // Import express-validator
 
@@ -25,5 +25,7 @@ router
   .delete(deleteOne)
   .put(putOne);
   router.route("/getone").get(getOnce)
+
+  router.route("/getProductById/:productId").get(getProductById)
 
 export default router;
