@@ -22,7 +22,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!');
 });
 // Port
-const port = process.env.PORT || 9090;
+const port = 3000;
 // DataBase
 const databaseName = 'ecoshopdb';
 const db_url = process.env.DB_URL || `mongodb://127.0.0.1:27017`;

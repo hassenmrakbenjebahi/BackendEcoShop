@@ -35,7 +35,7 @@ export async function getAll(req, res) {
     const docs = await Product.find()
     return res.json({
       statusCode: 200,
-      Products: docs
+      products: docs
     });
   } catch (error) {
     console.error(error);
