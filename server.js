@@ -2,7 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import posteRoutes from './routes/post.js';
 import commentRoutes from './routes/comment.js';
-import usersRoutes from './routes/user.js'
+import usersRoutes from './routes/user.js';
+import routeproduct from './routes/product.js'
+
 const app = express();
 const port = process.env.PORT || 9090;
 const databaseName = 'ecoshopdb';
@@ -19,12 +21,13 @@ mongoose
   .catch(err => {
     console.log(err);
   });
- // app.use(express.urlencoded({ extended: true })); // Pour analyser application/x-www-form-urlencoded
- // app.use('/img', express.static('public/images')); // Servir les fichiers sous le dossier public/images  
+  app.use(express.urlencoded({ extended: true })); // Pour analyser application/x-www-form-urlencoded
+  app.use('/img', express.static('public/images')); // Servir les fichiers sous le dossier public/images  
   app.use(express.json());
   app.use('/posts',posteRoutes);
   app.use('/comments',commentRoutes);
   app.use("/users",usersRoutes)
+  app.use('/product',routeproduct)
 
 
   app.listen(port, () => {

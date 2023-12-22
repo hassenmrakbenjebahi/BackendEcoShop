@@ -109,7 +109,7 @@ export function addPost(req, res) {
              // Créez le post en utilisant les données de la requête
              const newPost = {
               content: req.body.content,
-              //media: `${req.protocol}://${req.get('host')}/public/images/${req.file.filename}`,
+              media: `${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
               iduser: req.params.id // Ajoutez l'id du user à iduser du post
           };
               Post.create(newPost)
@@ -148,7 +148,16 @@ export function addlike(req, res) {
                        post.save()
 
                       .then((p) => {
-                          res.status(200).json(p);
+                        const uplike = {
+                            id:p.id,
+                            content:p.content,
+                            publicationDate:p.publicationDate,
+                            likes:p.likes,
+                            iduser:p.iduser,
+                            media:p.media
+                            
+                        };
+                          res.status(200).json(uplike);
                       })
                       .catch(err => {
                           res.status(500).json({ error: "Erreur lors de l'enregistrement du user ou du like post mis à jour.", err });
@@ -188,6 +197,7 @@ export function retireLike(req,res){
                  }
                  post.save()
                  .then((p) => {
+                    
                      res.status(200).json(p);
                  })
                  .catch(err => {

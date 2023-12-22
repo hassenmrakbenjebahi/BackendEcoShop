@@ -45,8 +45,19 @@ export function addOnce(req, res) {
 
 
 export function getAllCommentPost(req,res){
- Comment.find({ idpost: req.params.id }).then(doc =>{
-    res.status(201).json(doc)
+ Comment.find({ idpost: req.params.id }).then(docs =>{
+    let list=[];
+    for(let i=0;i<docs.length;i++){
+        list.push({
+            id:docs[i]._id,
+            content:docs[i].content,
+            iduser:docs[i].iduser,
+            idpost:docs[i].idpost,
+            date:docs[i].date
+        });
+    } 
+    
+    res.status(201).json(list)
  }) .catch((err)=>{
     res.status(500).json({error:err});
 });   
