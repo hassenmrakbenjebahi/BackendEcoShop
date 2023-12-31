@@ -1,6 +1,5 @@
 import express from 'express';
-import { addOnce, deleteOne, getAll, getOnce, putOne, getProductById, getByNameAndByCode, getStats, getSalesByCategory, getSalesByBrand,
-  getBestSellers, getEcoFriendlyProducts } from '../controllers/product.js';
+import { addOnce, deleteOne, getAll, getOnce, putOne, getProductById, getByNameAndByCode } from '../controllers/product.js';
 import { singleImage } from "../middlewares/multer-config.js";
 
 const router = express.Router();
