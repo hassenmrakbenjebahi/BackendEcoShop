@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema({
     recyclability: String,      // unit of measurement (pourcentage)
 });
 
+
 // Make exportable
 const product = mongoose.model('Product', productSchema);
 export default product;

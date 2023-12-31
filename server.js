@@ -25,7 +25,7 @@ app.use((err, req, res, next) => {
 const port = 3000;
 // DataBase
 const databaseName = 'ecoshopdb';
-const db_url = process.env.DB_URL || `mongodb://127.0.0.1:27017`;
+const db_url =`mongodb://127.0.0.1:27017`;
 mongoose
   .connect(`${db_url}/${databaseName}`)
   .then(() => {
@@ -36,10 +36,9 @@ mongoose
   });
 
   // path
-  app.use('/historique', historiqueRouter );
-  app.use('/impact', impactRouter );
+  app.use('/api/history', historiqueRouter );
   app.use('/user', userRouter );
-  app.use('/product',routeproduct)
+  app.use('/product',routeproduct);
 
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}/`);

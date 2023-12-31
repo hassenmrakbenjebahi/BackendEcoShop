@@ -2,14 +2,6 @@ import multer, { diskStorage } from "multer";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
-// Les extensions à accepter
-const MIME_TYPES = {
-    "image/jpg": "jpg",
-    "image/jpeg": "jpeg",
-    "image/png": "png",
-  };
-
-
 // to Add image of product
 export const singleImage = multer({
     storage: diskStorage({

@@ -47,23 +47,11 @@ export async function getAll(req, res) {
   }
 };
 
-// export function getAll(req, res) {
-//   Product.find()
-//     .then((docs) => {
-//       res.status(200).json({products :docs});
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ error: err.message });
-//     });
-// }
-
 
 // get Product By Id
 export async function getProductById (req, res){
   try {
     const prod = await Product.findById(req.params.productId)
-   // .populate("userId")
-   // .populate("productId")
     if (!prod) {
       return res.status(404).json({ error: 'Product not found' });
     }
@@ -75,7 +63,7 @@ export async function getProductById (req, res){
   }
 };
 
-// get Product By Name || Code
+// Search Product By Name || Code
 export async function getByNameAndByCode(req, res) {
   try {
     const docs = await Product.find({name: req.body.name} || {code: req.body.code})
