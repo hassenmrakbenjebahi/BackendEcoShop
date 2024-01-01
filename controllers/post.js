@@ -2,8 +2,6 @@ import Post from '../models/post.js';
 import user from '../models/user.js';
 import { validationResult } from 'express-validator'; // Importer express-validator
 
-
-
 export function addOnce(req,res){
   if(!validationResult(req).isEmpty()) {
     res.status(400).json({ errors: validationResult(req).array() });
@@ -91,14 +89,6 @@ export function deleteOne(req,res){
 
 }
 
-
-
-
-
-
-
-
-
 export function addPost(req, res) {
   // Recherchez le post par son ID
   user.findById(req.params.id)
@@ -128,6 +118,46 @@ export function addPost(req, res) {
           res.status(500).json({ error: "Erreur lors de la recherche du user :", err });
       });
 }
+
+
+
+
+
+export function addPostAndroid(req, res) {
+    // Recherchez le post par son ID
+    user.findById(req.params.id)
+        .then(doc => {
+            if (!doc) {
+                res.status(404).json({ error: "user non trouvé" });
+            } else {
+               // Créez le post en utilisant les données de la requête
+               const newPost = {
+                content: req.body.content,
+               // media: `${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
+                iduser: req.params.id // Ajoutez l'id du user à iduser du post
+            };
+                Post.create(newPost)
+                    .then(newpost => {
+                     
+                      res.status(200).json(newpost);
+  
+                    })
+                    .catch(err => {
+                      res.status(500).json({ error: "Erreur lors de la création du post :", err });
+                  });
+                    
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Erreur lors de la recherche du user :", err });
+        });
+  }
+  
+
+
+
+
+
 
 
 export function addlike(req, res) {

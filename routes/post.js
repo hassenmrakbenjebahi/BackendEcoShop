@@ -1,5 +1,5 @@
 import express from "express";
-import{ addOnce , deleteOne, getAll, getOnce, putOne,addPost, addlike, retireLike}from '../controllers/post.js';
+import{ addOnce , deleteOne, getAll, getOnce, putOne,addPost, addlike, retireLike,addPostAndroid}from '../controllers/post.js';
 import multer from '../middlewares/post-multer-config.js'; // Importer la configuration de multer
 import { body } from 'express-validator'; // Importer express-validator
 
@@ -25,7 +25,9 @@ router
 router
 .route('/addpost/:id').post(multer,
     addPost);
-
+router
+.route('/addpostA/:id').post(multer,
+        addPostAndroid);
 
 router .route('/addlike/:id/:idu').put(addlike);
 router .route('/retirelike/:id/:idu').put(retireLike);
