@@ -36,7 +36,7 @@ mongoose
   });
 
   // path
-  app.use('/api/history', historiqueRouter );
+  app.use('/historique', historiqueRouter );
   app.use('/user', userRouter );
   app.use('/product',routeproduct);
 

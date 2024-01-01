@@ -3,19 +3,19 @@ import * as historiqueController  from '../controllers/historique.js';
 
 const router = express.Router();
 
-// Endpoint : POST /api/history/add
+// Endpoint : POST /historique/add
 router.post("/add", historiqueController.addToHistory);
 
-// Endpoint : GET /api/history/user/:userId
+// Endpoint : GET /historique/user/:userId
 router.get("/user/:userId", historiqueController.getUserHistory);
 
-// Endpoint : DELETE /api/history/:historyId
+// Endpoint : DELETE /historique/:historyId
 router.delete("/:historyId", historiqueController.deleteFromHistory);
 
-// Endpoint : GET /api/history/product/:productId
+// Endpoint : GET /historique/product/:productId
 router.get("/product/:productId", historiqueController.getProductDetails);
 
-// Endpoint : GET /api/history/getHistoryById/:historyId
+// Endpoint : GET /historique/getHistoryById/:historyId
 router.get("/getHistoryById/:historyId", historiqueController.getHistoryById);
 
 
