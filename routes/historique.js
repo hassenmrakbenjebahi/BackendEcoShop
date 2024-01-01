@@ -18,8 +18,5 @@ router.get("/product/:productId", historiqueController.getProductDetails);
 // Endpoint : GET /api/history/getHistoryById/:historyId
 router.get("/getHistoryById/:historyId", historiqueController.getHistoryById);
 
-// Endpoint : GET /api/history/all
-router.get("/all", historiqueController.getAllHistory); 
-
 
 export default router;

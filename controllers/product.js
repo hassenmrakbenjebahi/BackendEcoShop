@@ -32,6 +32,18 @@ export function addOnce(req, res) {
     });
 }
 
+
+// export async function addProduct (req, res){
+//   try {
+//     const prod = new Product(req.body)
+//     const product = await prod.save()
+//     res.status(201).json(product);
+//   } catch (error) {
+//     res.status(400).json({ error: 'Error' })
+//   }
+// };
+
+
 export async function getAll(req, res) {
   try {
     const docs = await Product.find()
@@ -60,22 +72,6 @@ export async function getProductById (req, res){
       product: prod});
   } catch (error) {
     res.status(500).json({ error: 'Error Server' });
-  }
-};
-
-// Search Product By Name || Code
-export async function getByNameAndByCode(req, res) {
-  try {
-    const docs = await Product.find({name: req.body.name} || {code: req.body.code})
-    return res.json({
-      statusCode: 200,
-      products: docs
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      statusCode: 500,
-      msg: 'Error retrieving histories' });
   }
 };
 

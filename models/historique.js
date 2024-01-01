@@ -8,6 +8,17 @@ const historiqueSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now },
 });
 
+// Ajouter un hook pre-save pour la conversion
+historiqueSchema.pre('save', function(next) {
+    // Convertir LocalDateTime en Date
+    this.date = new Date(this.date);
+    next();
+});
+
+// Ajouter une méthode pour la conversion inverse lors de la lecture
+historiqueSchema.methods.toLocalDateTime = function() {
+    return this.date.toISOString(); // Convertir Date en chaîne ISO
+};
 
 // Make exportable
 const historique = mongoose.model('Historique', historiqueSchema);
