@@ -32,6 +32,16 @@ export function addOnce(req, res) {
     });
 }
 
+export async function addProduct (req, res){
+    try {
+      const { name, description, image, code, carbonFootPrint, waterConsumption, recyclability, category, brand, price, stock } = req.body;
+      const newProduct = await Product.create({ name, description, image, code, carbonFootPrint, waterConsumption, recyclability, category, brand, price, stock });
+      res.status(201).json(newProduct);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
 
 // export async function addProduct (req, res){
 //   try {
@@ -48,7 +58,6 @@ export async function getAll(req, res) {
   try {
     const docs = await Product.find()
     return res.json({
-      statusCode: 200,
       products: docs
     });
   } catch (error) {
